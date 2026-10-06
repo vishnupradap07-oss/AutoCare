@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book a Vehicle Service – AutoCare</title>
+  
+  <!-- Google Fonts: Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Bootstrap 5.3 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <nav class="navbar navbar-expand-lg navbar-dark autocare-navbar">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">
+        <span class="brand-badge"><i class="bi bi-shield-shaded"></i></span>
+        <span>Auto<span class="text-brand-accent">Care</span></span>
+      </a>
+      <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#publicNavbar" aria-controls="publicNavbar" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="publicNavbar">
+        <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+          <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="services.html">Services</a></li>
+          <li class="nav-item"><a class="nav-link active" aria-current="page" href="booking.html">Book Service</a></li>
+          <li class="nav-item"><a class="nav-link" href="status.html">Service Status</a></li>
+          <li class="nav-item"><a class="nav-link" href="index.html#why-choose">About</a></li>
+          <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+        </ul>
+
+        <div class="d-flex align-items-center gap-2" id="navAuthArea">
+          <a href="login.html" class="btn btn-outline-light btn-sm px-3">
+            <i class="bi bi-person me-1"></i> Login
+          </a>
+          <a href="register.html" class="btn btn-nav-book btn-sm px-3">
+            <i class="bi bi-person-plus me-1"></i> Register
+          </a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Page Header -->
+  <section class="py-4 bg-light border-bottom">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-md-8">
+          <h2 class="fw-bold mb-1">Book an Automotive Service</h2>
+          <p class="text-muted small mb-0">Fill out your vehicle information and schedule a verified workshop appointment.</p>
+        </div>
+        <div class="col-md-4 text-md-end mt-2 mt-md-0">
+          <span class="badge bg-primary-subtle text-primary border px-3 py-2">
+            <i class="bi bi-shield-check me-1"></i> 100% Genuine Parts Guarantee
+          </span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Booking Area -->
+  <section class="py-5">
+    <div class="container">
+      <div class="row g-4">
+        
+        <!-- Left Side: Booking Form -->
+        <div class="col-lg-8">
+          <div class="card border-0 shadow-sm rounded-4 p-4 p-md-5">
+            <form id="bookingForm" novalidate>
+              
+              <!-- Registered Customer Fast Select (If logged in) -->
+              <div id="savedVehicleWrapper" class="d-none mb-4 p-3 bg-light rounded-3 border">
+                <label class="form-label text-primary fw-bold">
+                  <i class="bi bi-car-front-fill me-1"></i> Select Registered Vehicle
+                </label>
+                <select id="userVehicleSelect" class="form-select">
+                  <!-- Auto populated if customer has registered vehicles -->
+                </select>
+                <small class="text-muted">Or override fields below for a different vehicle.</small>
+              </div>
+
+              <!-- Section 1: Customer Contact Details -->
+              <h5 class="fw-bold mb-3 text-primary d-flex align-items-center gap-2">
+                <i class="bi bi-person-vcard"></i> 1. Customer Information
+              </h5>
+              <div class="row g-3 mb-4">
+                <div class="col-md-6">
+                  <label for="bookCustomerName" class="form-label">Customer Name <span class="text-danger">*</span></label>
+                  <input type="text" id="bookCustomerName" class="form-control" placeholder="e.g. Rohan Sharma" required>
+                </div>
+                <div class="col-md-6">
+                  <label for="bookCustomerPhone" class="form-label">Mobile Number <span class="text-danger">*</span></label>
+                  <div class="input-group">
+                    <span class="input-group-text">+91</span>
+                    <input type="tel" id="bookCustomerPhone" class="form-control" placeholder="9876501234" maxlength="10" required>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <label for="bookCustomerEmail" class="form-label">Email Address <span class="text-danger">*</span></label>
+                  <input type="email" id="bookCustomerEmail" class="form-control" placeholder="rohan@example.com" required>
+                </div>
+              </div>
+
+              <hr class="my-4">
+
+              <!-- Section 2: Vehicle Details -->
+              <h5 class="fw-bold mb-3 text-primary d-flex align-items-center gap-2">
+                <i class="bi bi-truck-front"></i> 2. Vehicle Information
+              </h5>
+              <div class="row g-3 mb-4">
+                <div class="col-md-6">
+                  <label for="bookVehicleNumber" class="form-label">Vehicle Registration Number <span class="text-danger">*</span></label>
+                  <input type="text" id="bookVehicleNumber" class="form-control font-monospace text-uppercase" placeholder="e.g. TN38AB1234" required>
+                  <small class="text-muted">Standard Indian plate format</small>
+                </div>
+                <div class="col-md-6">
+                  <label for="bookVehicleType" class="form-label">Vehicle Body Type <span class="text-danger">*</span></label>
+                  <select id="bookVehicleType" class="form-select" required>
+                    <option value="Hatchback">Hatchback (Swift, i20, etc.)</option>
+                    <option value="Sedan">Sedan (City, Verna, Ciaz, etc.)</option>
+                    <option value="Compact SUV">Compact SUV (Brezza, Venue, etc.)</option>
+                    <option value="SUV">Mid/Full Size SUV (Creta, Harrier, etc.)</option>
+                    <option value="Luxury">Luxury / German Sedan</option>
+                    <option value="Electric">Electric Vehicle (EV)</option>
+                  </select>
+                </div>
+                <div class="col-md-6">
+                  <label for="bookVehicleBrand" class="form-label">Vehicle Brand <span class="text-danger">*</span></label>
+                  <input type="text" id="bookVehicleBrand" class="form-control" placeholder="e.g. Maruti Suzuki, Hyundai, Honda" required>
+                </div>
+                <div class="col-md-6">
+                  <label for="bookVehicleModel" class="form-label">Vehicle Model & Variant <span class="text-danger">*</span></label>
+                  <input type="text" id="bookVehicleModel" class="form-control" placeholder="e.g. Swift VXI, Creta SX" required>
+                </div>
+              </div>
+
+              <hr class="my-4">
+
+              <!-- Section 3: Service & Scheduling -->
+              <h5 class="fw-bold mb-3 text-primary d-flex align-items-center gap-2">
+                <i class="bi bi-wrench-adjustable"></i> 3. Service Package & Slot
+              </h5>
+              <div class="row g-3 mb-4">
+                <div class="col-12">
+                  <label for="bookService" class="form-label">Select Service Package <span class="text-danger">*</span></label>
+                  <select id="bookService" class="form-select form-select-lg" required>
+                    <option value="">-- Choose a Service Package --</option>
+                  </select>
+                </div>
+                <div class="col-md-6">
+                  <label for="bookDate" class="form-label">Preferred Date <span class="text-danger">*</span></label>
+                  <input type="date" id="bookDate" class="form-control" required>
+                </div>
+                <div class="col-md-6">
+                  <label for="bookTime" class="form-label">Preferred Time Slot <span class="text-danger">*</span></label>
+                  <select id="bookTime" class="form-select" required>
+                    <option value="">-- Select Time Slot --</option>
+                    <option value="09:00 AM">09:00 AM - 10:30 AM (Morning Slot)</option>
+                    <option value="10:30 AM">10:30 AM - 12:00 PM</option>
+                    <option value="12:00 PM">12:00 PM - 01:30 PM</option>
+                    <option value="02:30 PM">02:30 PM - 04:00 PM (Afternoon Slot)</option>
+                    <option value="04:00 PM">04:00 PM - 05:30 PM</option>
+                    <option value="05:30 PM">05:30 PM - 07:00 PM (Evening Slot)</option>
+                  </select>
+                </div>
+                <div class="col-12">
+                  <label for="bookProblemDesc" class="form-label">Additional Problem Description (Optional)</label>
+                  <textarea id="bookProblemDesc" class="form-control" rows="3" placeholder="Describe any specific issues, squeaks, noises, AC issues or custom requests..."></textarea>
+                </div>
+              </div>
+
+              <div class="d-grid mt-4">
+                <button type="submit" class="btn btn-primary btn-lg fw-bold py-3 rounded-3 shadow">
+                  <i class="bi bi-check2-circle me-2"></i> Confirm Booking
+                </button>
+              </div>
+
+            </form>
+          </div>
+        </div>
+
+        <!-- Right Side: Live Booking Summary Card -->
+        <div class="col-lg-4">
+          <div class="card border-0 shadow-sm rounded-4 p-4 sticky-top" style="top: 100px;">
+            <div class="d-flex align-items-center justify-content-between pb-3 border-bottom mb-3">
+              <h5 class="fw-bold mb-0">Booking Summary</h5>
+              <span class="badge bg-warning text-dark"><i class="bi bi-clock-history me-1"></i> Live Preview</span>
+            </div>
+
+            <div class="mb-3">
+              <small class="text-muted d-block text-uppercase fw-semibold">Target Vehicle</small>
+              <div class="fw-bold text-dark fs-6" id="sumVehicle">Vehicle not specified yet</div>
+            </div>
+
+            <div class="mb-3">
+              <small class="text-muted d-block text-uppercase fw-semibold">Selected Package</small>
+              <div class="fw-bold text-primary fs-6" id="sumService">Select a service package</div>
+            </div>
+
+            <div class="row g-2 mb-3">
+              <div class="col-6">
+                <small class="text-muted d-block text-uppercase fw-semibold">Date</small>
+                <div class="fw-bold text-dark small" id="sumDate">Not selected</div>
+              </div>
+              <div class="col-6">
+                <small class="text-muted d-block text-uppercase fw-semibold">Time Slot</small>
+                <div class="fw-bold text-dark small" id="sumTime">Not selected</div>
+              </div>
+            </div>
+
+            <hr class="my-3">
+
+            <!-- Cost Breakdown -->
+            <div class="d-flex justify-content-between mb-2 small text-muted">
+              <span>Service Subtotal:</span>
+              <span class="fw-semibold text-dark" id="sumSubtotal">₹0</span>
+            </div>
+            <div class="d-flex justify-content-between mb-3 small text-muted">
+              <span>Estimated GST (18%):</span>
+              <span class="fw-semibold text-dark" id="sumTaxes">₹0</span>
+            </div>
+
+            <div class="p-3 bg-light rounded-3 d-flex justify-content-between align-items-center mb-4">
+              <div>
+                <span class="d-block text-muted small fw-semibold">TOTAL ESTIMATED</span>
+                <span class="fs-4 fw-extrabold text-primary" id="sumTotal">₹0</span>
+              </div>
+              <span class="badge bg-success-subtle text-success border">Best Price</span>
+            </div>
+
+            <div class="small text-muted">
+              <div class="d-flex align-items-center gap-2 mb-2">
+                <i class="bi bi-check-circle-fill text-success"></i> Free 40-Point Safety Check included
+              </div>
+              <div class="d-flex align-items-center gap-2 mb-2">
+                <i class="bi bi-check-circle-fill text-success"></i> No cancellation fee up to 2 hours prior
+              </div>
+              <div class="d-flex align-items-center gap-2">
+                <i class="bi bi-check-circle-fill text-success"></i> Pay online or at service center pickup
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Booking Confirmation Modal -->
+  <div class="modal fade" id="bookingConfirmationModal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true" data-bs-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content rounded-4 border-0 shadow-lg">
+        <div class="modal-header bg-success text-white">
+          <h5 class="modal-title fw-bold" id="modalLabel">
+            <i class="bi bi-check-circle-fill me-2"></i> Service Booking Confirmed!
+          </h5>
+        </div>
+        <div class="modal-body p-4 text-center">
+          <div class="display-6 text-success mb-3"><i class="bi bi-patch-check"></i></div>
+          <h4 class="fw-bold mb-1">Your appointment is scheduled!</h4>
+          <p class="text-muted small mb-4">Please keep this Booking ID for vehicle tracking and workshop verification.</p>
+
+          <div class="p-3 bg-light rounded-3 border mb-4 text-start">
+            <div class="d-flex justify-content-between align-items-center mb-2 pb-2 border-bottom">
+              <span class="text-muted small">Booking ID:</span>
+              <span class="fw-bold font-monospace text-primary fs-5" id="modalBookingId">AC202610001</span>
+            </div>
+            <div class="d-flex justify-content-between mb-1 small">
+              <span class="text-muted">Customer:</span>
+              <span class="fw-semibold" id="modalCustomer">Rohan Sharma</span>
+            </div>
+            <div class="d-flex justify-content-between mb-1 small">
+              <span class="text-muted">Vehicle:</span>
+              <span class="fw-semibold" id="modalVehicle">Maruti Suzuki Swift (TN38AB1234)</span>
+            </div>
+            <div class="d-flex justify-content-between mb-1 small">
+              <span class="text-muted">Service Package:</span>
+              <span class="fw-semibold text-primary" id="modalService">General Service</span>
+            </div>
+            <div class="d-flex justify-content-between mb-1 small">
+              <span class="text-muted">Scheduled Slot:</span>
+              <span class="fw-semibold" id="modalDateTime">10 Oct 2026 at 10:30 AM</span>
+            </div>
+            <div class="d-flex justify-content-between mb-1 small">
+              <span class="text-muted">Assigned Specialist:</span>
+              <span class="badge bg-secondary-subtle text-dark" id="modalMechanic">Arun Kumar</span>
+            </div>
+            <div class="d-flex justify-content-between pt-2 border-top fw-bold">
+              <span>Total Estimated Cost:</span>
+              <span class="text-success" id="modalAmount">₹1,499</span>
+            </div>
+          </div>
+
+          <div class="d-flex flex-column gap-2">
+            <a id="modalTrackBtn" href="status.html" class="btn btn-primary fw-bold py-2 rounded-3">
+              <i class="bi bi-geo-alt me-1"></i> Track Service Live Status
+            </a>
+            <button onclick="window.print()" class="btn btn-outline-secondary btn-sm py-2">
+              <i class="bi bi-printer me-1"></i> Print Booking Receipt
+            </button>
+            <a href="index.html" class="btn btn-link text-muted btn-sm">Return to Home</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Public Footer -->
+  <footer class="autocare-footer">
+    <div class="container">
+      <div class="footer-bottom d-flex flex-column flex-md-row justify-content-between align-items-center">
+        <div>&copy; 2026 AutoCare Service Management System. Developed for Academic Project.</div>
+        <div class="mt-2 mt-md-0">
+          <a href="login.html" class="text-muted me-3">Admin Portal</a>
+          <a href="login.html" class="text-muted">Customer Login</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Bootstrap 5.3 Bundle JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Core Main JS -->
+  <script src="js/main.js"></script>
+  <!-- Booking Logic JS -->
+  <script src="js/booking.js"></script>
+</body>
+</html>

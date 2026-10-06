@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Customer Dashboard – AutoCare</title>
+  
+  <!-- Google Fonts: Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Bootstrap 5.3 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body class="bg-light">
+
+  <div class="dashboard-layout">
+    
+    <!-- Mobile Backdrop -->
+    <div class="sidebar-backdrop"></div>
+
+    <!-- Sidebar Navigation -->
+    <aside class="dashboard-sidebar">
+      <div class="sidebar-brand">
+        <span class="brand-badge"><i class="bi bi-shield-shaded"></i></span>
+        <span>Auto<span class="text-warning">Care</span></span>
+      </div>
+
+      <div class="sidebar-user">
+        <div class="user-avatar" id="custAvatar">RS</div>
+        <div class="overflow-hidden">
+          <div class="fw-bold text-white text-truncate small" id="sidebarUserName">Rohan Sharma</div>
+          <div class="text-white-50 extra-small text-truncate" id="sidebarUserEmail">customer@autocare.com</div>
+        </div>
+      </div>
+
+      <ul class="sidebar-menu">
+        <div class="sidebar-heading">Customer Portal</div>
+        <li><a href="dashboard.html" class="active"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
+        <li><a href="vehicles.html"><i class="bi bi-car-front-fill"></i> My Vehicles</a></li>
+        <li><a href="../booking.html"><i class="bi bi-calendar-plus"></i> Book Service</a></li>
+        <li><a href="bookings.html"><i class="bi bi-card-checklist"></i> My Bookings</a></li>
+        <li><a href="bookings.html?filter=Completed"><i class="bi bi-clock-history"></i> Service History</a></li>
+        <li><a href="profile.html"><i class="bi bi-person-gear"></i> Profile Settings</a></li>
+        
+        <div class="sidebar-heading mt-3">Quick Navigation</div>
+        <li><a href="../services.html"><i class="bi bi-grid"></i> Services Catalog</a></li>
+        <li><a href="../status.html"><i class="bi bi-geo-alt"></i> Live Status Tracker</a></li>
+      </ul>
+
+      <div class="sidebar-footer">
+        <button onclick="logout()" class="btn btn-outline-danger w-100 btn-sm d-flex align-items-center justify-content-center gap-2">
+          <i class="bi bi-box-arrow-right"></i> Logout
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <div class="dashboard-content-wrapper">
+      
+      <!-- Topbar -->
+      <header class="dashboard-topbar">
+        <div class="d-flex align-items-center gap-3">
+          <button id="sidebarToggle" class="btn btn-light d-lg-none" type="button" aria-label="Toggle Sidebar">
+            <i class="bi bi-list fs-5"></i>
+          </button>
+          <div>
+            <h5 class="fw-bold mb-0" id="welcomeTitle">Welcome, Rohan Sharma</h5>
+            <small class="text-muted d-none d-sm-inline">Manage your vehicles and workshop service history</small>
+          </div>
+        </div>
+
+        <div class="d-flex align-items-center gap-3">
+          <div class="dropdown">
+            <button class="btn btn-light position-relative rounded-circle p-2" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="bi bi-bell fs-5"></i>
+              <span class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle"></span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end shadow border-0 p-2" style="width: 280px;">
+              <li class="dropdown-header fw-bold">Recent Notifications</li>
+              <li><a class="dropdown-item rounded small py-2" href="../status.html?id=AC202610001"><i class="bi bi-gear-fill text-warning me-2"></i>Swift VXI is currently in service.</a></li>
+              <li><a class="dropdown-item rounded small py-2" href="bookings.html"><i class="bi bi-check-circle-fill text-success me-2"></i>Appointment confirmed for Creta SX.</a></li>
+            </ul>
+          </div>
+
+          <a href="profile.html" class="btn btn-outline-primary btn-sm rounded-pill px-3">
+            <i class="bi bi-person me-1"></i> Profile
+          </a>
+        </div>
+      </header>
+
+      <!-- Dashboard Body -->
+      <main class="dashboard-main-body">
+        
+        <!-- Quick Action Buttons -->
+        <div class="d-flex flex-wrap gap-2 mb-4 justify-content-between align-items-center">
+          <h4 class="fw-bold mb-0">Overview & Activities</h4>
+          <div class="d-flex gap-2">
+            <a href="vehicles.html" class="btn btn-outline-primary btn-sm fw-semibold rounded-pill px-3">
+              <i class="bi bi-plus-circle me-1"></i> Add Vehicle
+            </a>
+            <a href="../booking.html" class="btn btn-primary btn-sm fw-semibold rounded-pill px-3">
+              <i class="bi bi-calendar2-plus me-1"></i> Book Service
+            </a>
+            <a href="../status.html" class="btn btn-warning btn-sm fw-semibold rounded-pill px-3 text-dark">
+              <i class="bi bi-geo-alt me-1"></i> Track Service
+            </a>
+          </div>
+        </div>
+
+        <!-- 4 KPI Cards -->
+        <div class="row g-3 mb-4">
+          <div class="col-sm-6 col-xl-3">
+            <div class="stat-card">
+              <div class="d-flex justify-content-between align-items-start">
+                <div>
+                  <div class="stat-title">My Vehicles</div>
+                  <div class="stat-value" id="statCustVehicles">2</div>
+                </div>
+                <div class="icon-wrapper icon-blue">
+                  <i class="bi bi-car-front-fill"></i>
+                </div>
+              </div>
+              <small class="text-muted mt-2 d-block"><a href="vehicles.html" class="text-decoration-none">View Garage &rarr;</a></small>
+            </div>
+          </div>
+
+          <div class="col-sm-6 col-xl-3">
+            <div class="stat-card">
+              <div class="d-flex justify-content-between align-items-start">
+                <div>
+                  <div class="stat-title">Active Bookings</div>
+                  <div class="stat-value text-primary" id="statCustActiveBookings">2</div>
+                </div>
+                <div class="icon-wrapper icon-amber">
+                  <i class="bi bi-hourglass-split"></i>
+                </div>
+              </div>
+              <small class="text-muted mt-2 d-block">1 In-Progress, 1 Confirmed</small>
+            </div>
+          </div>
+
+          <div class="col-sm-6 col-xl-3">
+            <div class="stat-card">
+              <div class="d-flex justify-content-between align-items-start">
+                <div>
+                  <div class="stat-title">Completed Services</div>
+                  <div class="stat-value text-success" id="statCustCompletedServices">1</div>
+                </div>
+                <div class="icon-wrapper icon-green">
+                  <i class="bi bi-check2-circle"></i>
+                </div>
+              </div>
+              <small class="text-muted mt-2 d-block">Quality verified</small>
+            </div>
+          </div>
+
+          <div class="col-sm-6 col-xl-3">
+            <div class="stat-card">
+              <div class="d-flex justify-content-between align-items-start">
+                <div>
+                  <div class="stat-title">Pending Payments</div>
+                  <div class="stat-value text-danger" id="statCustPendingPayments">₹999</div>
+                </div>
+                <div class="icon-wrapper icon-red">
+                  <i class="bi bi-credit-card-2-front"></i>
+                </div>
+              </div>
+              <small class="text-muted mt-2 d-block">Pay upon pickup or online</small>
+            </div>
+          </div>
+        </div>
+
+        <!-- Active Service Progress Tracker Card -->
+        <div class="card border-0 shadow-sm rounded-4 mb-4 overflow-hidden" id="activeServiceSection">
+          <div class="card-header bg-white py-3 px-4 d-flex justify-content-between align-items-center border-bottom">
+            <div class="d-flex align-items-center gap-2">
+              <span class="badge bg-primary px-3 py-2 rounded-pill"><i class="bi bi-broadcast me-1"></i> LIVE SERVICE TRACKER</span>
+              <span class="fw-bold text-dark font-monospace" id="liveBookingId">AC202610001</span>
+            </div>
+            <a id="liveFullTrackBtn" href="../status.html?id=AC202610001" class="btn btn-sm btn-outline-primary fw-semibold rounded-pill">
+              Inspect Milestones &rarr;
+            </a>
+          </div>
+          
+          <div class="card-body p-4">
+            <div class="row align-items-center mb-4">
+              <div class="col-md-7">
+                <h5 class="fw-bold mb-1" id="liveServiceName">General Service – Maruti Suzuki Swift VXI</h5>
+                <p class="text-muted small mb-0">Assigned Mechanic: <strong class="text-dark" id="liveMechanic">Arun Kumar (Engine Specialist)</strong></p>
+              </div>
+              <div class="col-md-5 text-md-end mt-2 mt-md-0">
+                <span id="liveStatusBadgeWrapper"></span>
+              </div>
+            </div>
+
+            <!-- Stepper Container -->
+            <div class="stepper-timeline" id="custStepper">
+              <!-- Rendered by JS -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent Service History Table -->
+        <div class="card border-0 shadow-sm rounded-4">
+          <div class="card-header bg-white py-3 px-4 d-flex justify-content-between align-items-center border-bottom">
+            <h5 class="fw-bold mb-0">My Service History & Recent Bookings</h5>
+            <a href="bookings.html" class="btn btn-outline-secondary btn-sm rounded-pill">View All</a>
+          </div>
+
+          <div class="table-responsive">
+            <table class="table table-custom align-middle">
+              <thead>
+                <tr>
+                  <th>Booking ID</th>
+                  <th>Vehicle</th>
+                  <th>Service</th>
+                  <th>Date & Time</th>
+                  <th>Specialist</th>
+                  <th>Amount</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="custRecentBookingsTbody">
+                <!-- Rendered dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </main>
+
+      <!-- Customer Footer -->
+      <footer class="p-3 bg-white border-top text-center text-muted small mt-auto">
+        &copy; 2026 AutoCare Portal &bull; Customer Management Area
+      </footer>
+
+    </div>
+  </div>
+
+  <!-- Bootstrap 5.3 Bundle JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Core Main JS -->
+  <script src="../js/main.js"></script>
+
+  <!-- Customer Dashboard Script -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const user = requireAuth("customer");
+      if (!user) return;
+
+      // Update titles & avatar
+      const welcome = document.getElementById("welcomeTitle");
+      if (welcome) welcome.textContent = `Welcome back, ${user.name}!`;
+
+      const avatar = document.getElementById("custAvatar");
+      if (avatar) {
+        const initials = user.name.split(" ").map(n => n[0]).join("").substring(0, 2).toUpperCase();
+        avatar.textContent = initials;
+      }
+
+      // Load Customer Data
+      loadCustomerStats(user);
+    });
+
+    function loadCustomerStats(user) {
+      const bookings = DB.filter("bookings", b => 
+        b.customer_email.toLowerCase() === user.email.toLowerCase() ||
+        b.customer_name.toLowerCase() === user.name.toLowerCase()
+      );
+
+      const vehicles = DB.filter("vehicles", v => 
+        v.customer_name.toLowerCase() === user.name.toLowerCase()
+      );
+
+      const payments = DB.get("payments");
+
+      // Metrics
+      const activeBookings = bookings.filter(b => !["Completed", "Cancelled"].includes(b.status));
+      const completedServices = bookings.filter(b => b.status === "Completed");
+      
+      const pendingPaymentSum = bookings
+        .filter(b => b.payment_status === "Pending")
+        .reduce((sum, b) => sum + (Number(b.amount) || 0), 0);
+
+      document.getElementById("statCustVehicles").textContent = vehicles.length;
+      document.getElementById("statCustActiveBookings").textContent = activeBookings.length;
+      document.getElementById("statCustCompletedServices").textContent = completedServices.length;
+      document.getElementById("statCustPendingPayments").textContent = formatCurrency(pendingPaymentSum);
+
+      // Render Active Tracker Stepper
+      const primaryActive = activeBookings[0] || bookings[0];
+      if (primaryActive) {
+        document.getElementById("liveBookingId").textContent = primaryActive.booking_id;
+        document.getElementById("liveFullTrackBtn").href = `../status.html?id=${primaryActive.booking_id}`;
+        document.getElementById("liveServiceName").textContent = `${primaryActive.service_name} – ${primaryActive.vehicle_model}`;
+        document.getElementById("liveMechanic").textContent = `${primaryActive.mechanic_name || 'Workshop Team'}`;
+        document.getElementById("liveStatusBadgeWrapper").innerHTML = getStatusBadge(primaryActive.status);
+
+        renderLiveStepper(primaryActive.status);
+      } else {
+        document.getElementById("activeServiceSection").classList.add("d-none");
+      }
+
+      // Render Table
+      const tbody = document.getElementById("custRecentBookingsTbody");
+      if (tbody) {
+        if (bookings.length === 0) {
+          tbody.innerHTML = `<tr><td colspan="8" class="text-center py-4 text-muted">No booking records found. Click "Book Service" to get started!</td></tr>`;
+          return;
+        }
+
+        tbody.innerHTML = bookings.slice(0, 5).map(b => `
+          <tr>
+            <td class="font-monospace fw-bold text-primary">${b.booking_id}</td>
+            <td>
+              <div class="fw-semibold">${b.vehicle_model}</div>
+              <small class="badge bg-light text-dark border font-monospace">${b.vehicle_number}</small>
+            </td>
+            <td>${b.service_name}</td>
+            <td>${formatDate(b.booking_date)} <small class="text-muted d-block">${b.booking_time}</small></td>
+            <td><span class="badge bg-secondary-subtle text-dark">${b.mechanic_name || 'Unassigned'}</span></td>
+            <td class="fw-bold">${formatCurrency(b.amount)}</td>
+            <td>${getStatusBadge(b.status)}</td>
+            <td>
+              <a href="../status.html?id=${b.booking_id}" class="btn btn-sm btn-outline-primary" title="Track Status">
+                <i class="bi bi-geo-alt"></i>
+              </a>
+            </td>
+          </tr>
+        `).join("");
+      }
+    }
+
+    function renderLiveStepper(status) {
+      const container = document.getElementById("custStepper");
+      if (!container) return;
+
+      const stages = [
+        "Confirmed",
+        "Vehicle Received",
+        "Inspection",
+        "Service In Progress",
+        "Ready for Delivery",
+        "Completed"
+      ];
+
+      const currentIdx = stages.indexOf(status);
+      const activeIdx = currentIdx !== -1 ? currentIdx : 0;
+
+      container.innerHTML = stages.map((st, i) => {
+        let nodeClass = "";
+        let icon = i + 1;
+        if (i < activeIdx) {
+          nodeClass = "completed";
+          icon = `<i class="bi bi-check-lg"></i>`;
+        } else if (i === activeIdx) {
+          nodeClass = "active";
+          icon = `<i class="bi bi-gear-fill"></i>`;
+        }
+        return `
+          <div class="step-node ${nodeClass}">
+            <div class="step-circle">${icon}</div>
+            <span class="step-label">${st}</span>
+          </div>
+        `;
+      }).join("");
+    }
+  </script>
+</body>
+</html>

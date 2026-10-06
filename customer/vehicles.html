@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Garage & Vehicles – AutoCare</title>
+  
+  <!-- Google Fonts: Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Bootstrap 5.3 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body class="bg-light">
+
+  <div class="dashboard-layout">
+    
+    <!-- Mobile Backdrop -->
+    <div class="sidebar-backdrop"></div>
+
+    <!-- Sidebar Navigation -->
+    <aside class="dashboard-sidebar">
+      <div class="sidebar-brand">
+        <span class="brand-badge"><i class="bi bi-shield-shaded"></i></span>
+        <span>Auto<span class="text-warning">Care</span></span>
+      </div>
+
+      <div class="sidebar-user">
+        <div class="user-avatar">RS</div>
+        <div class="overflow-hidden">
+          <div class="fw-bold text-white text-truncate small" id="sidebarUserName">Rohan Sharma</div>
+          <div class="text-white-50 extra-small text-truncate" id="sidebarUserEmail">customer@autocare.com</div>
+        </div>
+      </div>
+
+      <ul class="sidebar-menu">
+        <div class="sidebar-heading">Customer Portal</div>
+        <li><a href="dashboard.html"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
+        <li><a href="vehicles.html" class="active"><i class="bi bi-car-front-fill"></i> My Vehicles</a></li>
+        <li><a href="../booking.html"><i class="bi bi-calendar-plus"></i> Book Service</a></li>
+        <li><a href="bookings.html"><i class="bi bi-card-checklist"></i> My Bookings</a></li>
+        <li><a href="bookings.html?filter=Completed"><i class="bi bi-clock-history"></i> Service History</a></li>
+        <li><a href="profile.html"><i class="bi bi-person-gear"></i> Profile Settings</a></li>
+
+        <div class="sidebar-heading mt-3">Quick Navigation</div>
+        <li><a href="../services.html"><i class="bi bi-grid"></i> Services Catalog</a></li>
+        <li><a href="../status.html"><i class="bi bi-geo-alt"></i> Live Status Tracker</a></li>
+      </ul>
+
+      <div class="sidebar-footer">
+        <button onclick="logout()" class="btn btn-outline-danger w-100 btn-sm d-flex align-items-center justify-content-center gap-2">
+          <i class="bi bi-box-arrow-right"></i> Logout
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <div class="dashboard-content-wrapper">
+      
+      <!-- Topbar -->
+      <header class="dashboard-topbar">
+        <div class="d-flex align-items-center gap-3">
+          <button id="sidebarToggle" class="btn btn-light d-lg-none" type="button" aria-label="Toggle Sidebar">
+            <i class="bi bi-list fs-5"></i>
+          </button>
+          <div>
+            <h5 class="fw-bold mb-0">My Registered Vehicles</h5>
+            <small class="text-muted d-none d-sm-inline">Manage and track maintenance intervals for your personal fleet</small>
+          </div>
+        </div>
+
+        <button class="btn btn-primary btn-sm fw-semibold rounded-pill px-3" data-bs-toggle="modal" data-bs-target="#addVehicleModal">
+          <i class="bi bi-plus-lg me-1"></i> Add New Vehicle
+        </button>
+      </header>
+
+      <!-- Main Body -->
+      <main class="dashboard-main-body">
+        
+        <div class="row g-4" id="vehiclesCardGrid">
+          <!-- Rendered dynamically -->
+        </div>
+
+      </main>
+
+      <!-- Customer Footer -->
+      <footer class="p-3 bg-white border-top text-center text-muted small mt-auto">
+        &copy; 2026 AutoCare Portal &bull; Customer Management Area
+      </footer>
+
+    </div>
+  </div>
+
+  <!-- Add Vehicle Modal -->
+  <div class="modal fade" id="addVehicleModal" tabindex="-1" aria-labelledby="addVehicleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title fw-bold" id="addVehicleModalLabel"><i class="bi bi-car-front text-primary me-2"></i> Register New Vehicle</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form id="addVehicleForm">
+          <div class="modal-body">
+            <div class="mb-3">
+              <label class="form-label">Registration Number <span class="text-danger">*</span></label>
+              <input type="text" id="newVehReg" class="form-control font-monospace text-uppercase" placeholder="e.g. TN38KL9999" required>
+            </div>
+            <div class="row g-2 mb-3">
+              <div class="col-6">
+                <label class="form-label">Brand <span class="text-danger">*</span></label>
+                <input type="text" id="newVehBrand" class="form-control" placeholder="e.g. Volkswagen" required>
+              </div>
+              <div class="col-6">
+                <label class="form-label">Model <span class="text-danger">*</span></label>
+                <input type="text" id="newVehModel" class="form-control" placeholder="e.g. Taigun GT" required>
+              </div>
+            </div>
+            <div class="row g-2 mb-3">
+              <div class="col-6">
+                <label class="form-label">Manufacturing Year <span class="text-danger">*</span></label>
+                <input type="number" id="newVehYear" class="form-control" min="1995" max="2027" value="2023" required>
+              </div>
+              <div class="col-6">
+                <label class="form-label">Fuel Type <span class="text-danger">*</span></label>
+                <select id="newVehFuel" class="form-select" required>
+                  <option value="Petrol" selected>Petrol</option>
+                  <option value="Diesel">Diesel</option>
+                  <option value="Electric">Electric</option>
+                  <option value="CNG">CNG</option>
+                  <option value="Hybrid">Hybrid</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cancel</button>
+            <button type="submit" class="btn btn-primary btn-sm fw-bold px-3">Save Vehicle</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap 5.3 Bundle JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Core Main JS -->
+  <script src="../js/main.js"></script>
+
+  <!-- Vehicle Management Script -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const user = requireAuth("customer");
+      if (!user) return;
+
+      renderCustomerVehicles(user);
+
+      // Form Handler
+      const addForm = document.getElementById("addVehicleForm");
+      if (addForm) {
+        addForm.addEventListener("submit", (e) => {
+          e.preventDefault();
+
+          const reg = document.getElementById("newVehReg").value.trim().toUpperCase().replace(/\s+/g, '');
+          const brand = document.getElementById("newVehBrand").value.trim();
+          const model = document.getElementById("newVehModel").value.trim();
+          const year = parseInt(document.getElementById("newVehYear").value, 10);
+          const fuel = document.getElementById("newVehFuel").value;
+
+          if (!/^[A-Z]{2}[0-9]{1,2}[A-Z]{1,3}[0-9]{4}$/.test(reg)) {
+            showToast("Invalid registration number format (e.g. TN38AB1234)", "error");
+            return;
+          }
+
+          const newVeh = {
+            vehicle_id: `VEH-${Date.now().toString().slice(-4)}`,
+            customer_id: user.user_id,
+            customer_name: user.name,
+            registration_number: reg,
+            brand: brand,
+            model: model,
+            year: year,
+            fuel_type: fuel,
+            last_service: "New Addition",
+            next_service: "Schedule Now"
+          };
+
+          DB.insert("vehicles", newVeh);
+          showToast(`Vehicle ${brand} ${model} added to your garage!`, "success");
+
+          const modalEl = document.getElementById("addVehicleModal");
+          const modal = bootstrap.Modal.getInstance(modalEl);
+          if (modal) modal.hide();
+          addForm.reset();
+
+          renderCustomerVehicles(user);
+        });
+      }
+    });
+
+    function renderCustomerVehicles(user) {
+      const grid = document.getElementById("vehiclesCardGrid");
+      if (!grid) return;
+
+      const vehicles = DB.filter("vehicles", v => 
+        v.customer_name.toLowerCase() === user.name.toLowerCase()
+      );
+
+      if (vehicles.length === 0) {
+        grid.innerHTML = `
+          <div class="col-12 text-center py-5">
+            <div class="display-4 text-muted mb-3"><i class="bi bi-car-front"></i></div>
+            <h5 class="fw-bold">No vehicles registered yet</h5>
+            <p class="text-muted">Add your car to track service milestones and schedule maintenance.</p>
+            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addVehicleModal">
+              <i class="bi bi-plus-lg me-1"></i> Add First Vehicle
+            </button>
+          </div>
+        `;
+        return;
+      }
+
+      grid.innerHTML = vehicles.map(v => `
+        <div class="col-md-6 col-xl-4">
+          <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden">
+            <div class="p-4 bg-white border-bottom d-flex justify-content-between align-items-center">
+              <div>
+                <h5 class="fw-bold mb-0">${v.brand} ${v.model}</h5>
+                <span class="badge bg-light text-dark border font-monospace mt-1">${v.registration_number}</span>
+              </div>
+              <div class="icon-wrapper icon-blue rounded-3 p-2">
+                <i class="bi bi-car-front-fill fs-4"></i>
+              </div>
+            </div>
+            
+            <div class="card-body p-4">
+              <div class="row g-2 mb-3 small">
+                <div class="col-6">
+                  <span class="text-muted d-block">Year:</span>
+                  <strong>${v.year}</strong>
+                </div>
+                <div class="col-6">
+                  <span class="text-muted d-block">Fuel:</span>
+                  <span class="badge bg-secondary-subtle text-dark">${v.fuel_type || 'Petrol'}</span>
+                </div>
+                <div class="col-6 mt-2">
+                  <span class="text-muted d-block">Last Service:</span>
+                  <span class="text-secondary">${formatDate(v.last_service)}</span>
+                </div>
+                <div class="col-6 mt-2">
+                  <span class="text-muted d-block">Next Service:</span>
+                  <span class="text-primary fw-semibold">${formatDate(v.next_service)}</span>
+                </div>
+              </div>
+
+              <div class="pt-3 border-top d-flex gap-2">
+                <a href="../booking.html?serviceId=SRV-01" class="btn btn-primary btn-sm flex-grow-1 fw-semibold">
+                  <i class="bi bi-calendar2-plus me-1"></i> Book Service
+                </a>
+                <button class="btn btn-outline-secondary btn-sm" onclick="editVehicle('${v.vehicle_id}')" title="Edit Vehicle">
+                  <i class="bi bi-pencil"></i>
+                </button>
+                <button class="btn btn-outline-danger btn-sm" onclick="deleteCustomerVehicle('${v.vehicle_id}')" title="Remove">
+                  <i class="bi bi-trash"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      `).join("");
+    }
+
+    window.deleteCustomerVehicle = function(vehicleId) {
+      if (confirm("Are you sure you want to remove this vehicle from your profile?")) {
+        DB.delete("vehicles", v => v.vehicle_id === vehicleId);
+        showToast("Vehicle removed from your garage.", "info");
+        const user = getCurrentUser();
+        if (user) renderCustomerVehicles(user);
+      }
+    };
+
+    window.editVehicle = function(vehicleId) {
+      const v = DB.find("vehicles", item => item.vehicle_id === vehicleId);
+      if (!v) return;
+
+      const newModel = prompt(`Update Model for ${v.brand}:`, v.model);
+      if (newModel && newModel.trim().length > 1) {
+        DB.update("vehicles", item => item.vehicle_id === vehicleId, item => ({
+          ...item,
+          model: newModel.trim()
+        }));
+        showToast("Vehicle details updated!", "success");
+        const user = getCurrentUser();
+        if (user) renderCustomerVehicles(user);
+      }
+    };
+  </script>
+</body>
+</html>
